@@ -1,0 +1,70 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+     {
+            "name": "Local Tests",
+            "type": "node",
+            "protocol": "inspector",
+            "request": "launch",
+            // Automatically stop program after launch.
+            "stopOnEntry": false,
+            "cwd": "${workspaceRoot}",
+            "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/mocha",
+            "windows": {
+                "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/mocha.cmd"
+            },
+            "runtimeArgs": [
+                "-u",
+                "tdd",
+                "--timeout",
+                "999999",
+                "--colors",
+                "--recursive",
+                "${workspaceRoot}/out/test"
+            ],
+            "sourceMaps": true,
+            "outFiles": ["${workspaceRoot}/out"],
+            "internalConsoleOptions": "openOnSessionStart",
+
+            // Prevents debugger from stepping into this code :)
+            "skipFiles": [
+                "node_modules/**/*.js",
+                "<node_internals>/**/*.js"
+            ]
+        },
+        {
+            "name": "Local and Remote tests (hitting external apis)",
+            "env": {
+                "RUN_REMOTE_TESTS": "true"
+            },
+            "type": "node",
+            "protocol": "inspector",
+            "request": "launch",
+            // Automatically stop program after launch.
+            "stopOnEntry": false,
+            "cwd": "${workspaceRoot}",
+            "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/mocha",
+            "windows": {
+                "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/mocha.cmd"
+            },
+            "runtimeArgs": [
+                "-u",
+                "tdd",
+                "--timeout",
+                "999999",
+                "--colors",
+                "--recursive",
+                "${workspaceRoot}/out/test"
+            ],
+            "sourceMaps": true,
+            "outFiles": ["${workspaceRoot}/out"],
+            "internalConsoleOptions": "openOnSessionStart",
+
+            // Prevents debugger from stepping into this code :)
+            "skipFiles": [
+                "node_modules/**/*.js",
+                "<node_internals>/**/*.js"
+            ]
+        }
+    ]
+}

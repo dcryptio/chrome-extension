@@ -1,0 +1,28 @@
+{
+  "name": "dcyptio-chrome-extension",
+  "version": "0.0.1",
+  "private": true,
+  "main": "./out/src/index.js",
+  "types": "./out/src/index.d.ts",
+  "scripts": {
+    "compile": "tsc -watch -p ./"
+  },
+  "dependencies": {
+    "@types/graphql": "^0.11.7",
+    "@types/lodash": "^4.14.52",
+    "@types/request": "0.0.40",
+    "graphql": "^0.12.3",
+    "lodash": "^4.17.4",
+    "request": "^2.79.0",
+    "request-promise-native": "^1.0.3"
+  },
+  "devDependencies": {
+    "@types/chai": "^3.4.35",
+    "@types/chai-as-promised": "0.0.30",
+    "@types/mocha": "^2.2.40",
+    "chai": "^3.5.0",
+    "chai-as-promised": "^6.0.0",
+    "mocha": "^3.2.0",
+    "typescript": "^2.7.2"
+  }
+}

@@ -1,0 +1,1 @@
+export const RUN_REMOTE_TESTS = process.env.RUN_REMOTE_TESTS === "true";
