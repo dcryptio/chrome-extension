@@ -14,9 +14,9 @@ getPersonalKey()
   });
 
 chrome.webRequest.onBeforeRequest.addListener(
-// chrome.webRequest.onBeforeSendHeaders.addListener(  
+// chrome.webRequest.onBeforeSendHeaders.addListener(
   function(details) {
-    if (details.initiator.indexOf('chrome-extension') != -1 ){
+    if (details.initiator && details.initiator.indexOf('chrome-extension') != -1 ){
       return {};
     }
     if (details.method === 'POST' && details.requestBody.raw != null) {
@@ -45,7 +45,7 @@ chrome.webRequest.onBeforeRequest.addListener(
   chrome.webRequest.onBeforeSendHeaders.addListener(
       function(details) {
         console.log(details);
-        if (details.initiator.indexOf('chrome-extension') != -1 ){
+        if (details.initiator && details.initiator.indexOf('chrome-extension') != -1 ){
           while (details.requestHeaders.length > 0) details.requestHeaders.pop();
           var newHeaders = requestHeaders.pop()
           return {requestHeaders: newHeaders};

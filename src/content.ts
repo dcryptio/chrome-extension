@@ -45,5 +45,5 @@ function nodeInsertedCallback(event) {
     // })
 };
 
-// document.addEventListener('DOMNodeInserted', nodeInsertedCallback);
+document.addEventListener('DOMNodeInserted', nodeInsertedCallback);
 $('document').ready(nodeInsertedCallback);
