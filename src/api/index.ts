@@ -1,6 +1,7 @@
 import { Post } from "./types";
 import { EncryptedContent } from "../encryption/types";
 import axios from "axios";
+import { KeyPair } from "../encryption/types";
 
 const API_URL = "http://167.99.169.114/graphql";
 
@@ -20,4 +21,15 @@ export async function createPost(content: EncryptedContent) : Promise<Post> {
                         .then(res => res.data.data.createPost)
                         .catch(console.error);
     return post;
+}
+
+export async function getNewKeyPair(keyName: string) : Promise<KeyPair> {
+    let keyValues = await axios
+                            .get(API_URL + "?query={keyPair{private,public}}")
+                            .then(res => res.data.data.keyPair)
+                            .catch(console.error);
+    if (keyValues == undefined){
+        return null;
+    }
+    return {name: keyName, private: keyValues.private, public: keyValues.public};
 }

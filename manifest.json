@@ -12,13 +12,13 @@
                     "https://*.facebook.com/*",
                     "https://*.facebook.com/*"
             ],
-            "js": ["out/src/content.js"]
+            "js": ["build/content.js"]
         }
     ],
     
     "background": {
         "scripts": [
-            "out/src/background.js"
+            "build/background.js"
         ],
         "persistent": true
     },

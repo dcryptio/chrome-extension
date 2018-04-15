@@ -1,4 +1,5 @@
 (function() {
+    let chrome = window['chrome'];    
     const key = 'other keyyyyyyyyyyyyyy';
     const __local_key = '__local_key';
     chrome.storage.local.set({__local_key: key}, function() {

@@ -8,7 +8,8 @@ export function encrypt(content: Content, key: KeyPair, user: string) : Encrypte
         case ContentType.IMAGE:
             return null;
         case ContentType.TEXT:
-            return { user, keyName, content: crypto.privateEncrypt(key.private, Buffer.from(content.value)) };
+            let encrypted = crypto.privateEncrypt(key.private, Buffer.from(content.value));
+            return { user, keyName, content: Buffer.from(encrypted).toString('base64') };
         default:
             return null;
     }
