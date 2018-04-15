@@ -27,8 +27,10 @@
         "default_popup": "src/popup/popup.html"
     },
     "permissions": [
+        "storage",
         "<all_urls>",
         "webRequest",
-        "webRequestBlocking"
+        "webRequestBlocking",
+        "contextMenus"
     ]
 }
