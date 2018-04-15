@@ -1,6 +1,6 @@
 import { KeyPair, ContentType, EncryptedContent } from "./types";
-import { getNewKeyPair, createPost } from "../api";
-import { encrypt } from "./crypto";
+import { getNewKeyPair, createPost, getPosts } from "../api";
+import { encrypt, decrypt } from "./crypto";
 
 let chrome = window['chrome'];
 
@@ -15,11 +15,15 @@ DCRYPT.IO POST KEY ===${post.keyName}===
 DCRYPT.IO POST USER ===${"user"}===`;
 }
 
-export async function decryptPost(msg: string){
-    let splitted = msg.split("===");
-    let id = splitted[1];
-    let keyName = splitted[3];
-    let user = splitted[5];
+export async function decryptPost(id: string, keyName: string, user: string) : Promise<String> {
+    let personalKey = await getPersonalKey();
+    let publicKey = {user, name: personalKey.name, key: personalKey.public };
+    if (user == "user" && keyName == "testKey"){
+        return getPosts([id])
+            .then(posts => { return { content: posts[0].data, keyName, user }; })
+            .then(encrypted => decrypt(encrypted, publicKey, ContentType.TEXT))
+            .then(content => content.value);
+    }
     return ` = = = = DCRYPT.IO = = = =
 You do not have the necessary key to decrypt this message. Contact the posting user in order ask for his key.`;
 }

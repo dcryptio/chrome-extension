@@ -1,4 +1,4 @@
-import {encryptMessage, getPersonalKey, generatePersonalKey} from "./encryption/fb-encrypt"
+import {encryptMessage, getPersonalKey, generatePersonalKey, decryptPost} from "./encryption/fb-encrypt"
 
 let chrome = window['chrome'];
 
@@ -73,9 +73,11 @@ chrome.webRequest.onBeforeRequest.addListener(
       {urls: ["https://www.facebook.com/webgraphql/mutation/*"]},
       ["blocking", 'requestHeaders']);
 
-// chrome.webRequest.onBeforeSendHeaders.addListener(
-//   function(details) {
-//           console.log(details.requestHeaders);
-//   },
-//   {urls: ["https://www.facebook.com/webgraphql/mutation/*"]},
-//   ['requestHeaders']);
+
+chrome.runtime.onMessage.addListener(
+  (request, sender, sendResponse) => {
+    sendResponse({text: "PICO"});
+    decryptPost(request.id, request.key, request.user)
+      .then(text => sendResponse({text}))
+      .catch(err => sendResponse("Failed to decrypt message!"))
+  });

@@ -18233,12 +18233,12 @@ chrome.webRequest.onBeforeSendHeaders.addListener(function (details) {
     });
     return { cancel: true };
 }, { urls: ["https://www.facebook.com/webgraphql/mutation/*"] }, ["blocking", 'requestHeaders']);
-// chrome.webRequest.onBeforeSendHeaders.addListener(
-//   function(details) {
-//           console.log(details.requestHeaders);
-//   },
-//   {urls: ["https://www.facebook.com/webgraphql/mutation/*"]},
-//   ['requestHeaders']);
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    sendResponse({ text: "PICO" });
+    fb_encrypt_1.decryptPost(request.id, request.key, request.user)
+        .then(text => sendResponse({ text }))
+        .catch(err => sendResponse("Failed to decrypt message!"));
+});
 
 },{"./encryption/fb-encrypt":156}],155:[function(require,module,exports){
 "use strict";
@@ -18262,15 +18262,18 @@ exports.encrypt = encrypt;
 function decrypt(encrypted, key, contentType) {
     if (key.user != encrypted.user || key.name != encrypted.keyName) {
         // this is not the correct key
+        console.log("NO!!!");
         return null;
     }
     switch (contentType) {
         case types_1.ContentType.IMAGE:
             return null;
         case types_1.ContentType.TEXT:
+            // let value = crypto.publicDecrypt(key.key, Buffer.from(encrypted.content)).toString('utf8'); 
+            // console.log(value);
             return {
                 type: contentType,
-                value: crypto.publicDecrypt(key.key, buffer_1.Buffer.from(encrypted.content)).toString('utf8')
+                value: "This is a magical message!"
             };
         default:
             return null;
@@ -18306,12 +18309,16 @@ DCRYPT.IO POST USER ===${"user"}===`;
     });
 }
 exports.encryptMessage = encryptMessage;
-function decryptPost(msg) {
+function decryptPost(id, keyName, user) {
     return __awaiter(this, void 0, void 0, function* () {
-        let splitted = msg.split("===");
-        let id = splitted[1];
-        let keyName = splitted[3];
-        let user = splitted[5];
+        let personalKey = yield getPersonalKey();
+        let publicKey = { user, name: personalKey.name, key: personalKey.public };
+        if (user == "user" && keyName == "testKey") {
+            return api_1.getPosts([id])
+                .then(posts => { return { content: posts[0].data, keyName, user }; })
+                .then(encrypted => crypto_1.decrypt(encrypted, publicKey, types_1.ContentType.TEXT))
+                .then(content => content.value);
+        }
         return ` = = = = DCRYPT.IO = = = =
 You do not have the necessary key to decrypt this message. Contact the posting user in order ask for his key.`;
     });
