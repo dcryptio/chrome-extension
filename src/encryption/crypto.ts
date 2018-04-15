@@ -18,7 +18,6 @@ export function encrypt(content: Content, key: KeyPair, user: string) : Encrypte
 export function decrypt(encrypted: EncryptedContent, key: PublicKey, contentType: ContentType ) : Content {
     if (key.user != encrypted.user || key.name != encrypted.keyName){
         // this is not the correct key
-        console.log("NO!!!");
         return null;
     }
 
@@ -26,11 +25,10 @@ export function decrypt(encrypted: EncryptedContent, key: PublicKey, contentType
         case ContentType.IMAGE:
             return null;
         case ContentType.TEXT:
-            // let value = crypto.publicDecrypt(key.key, Buffer.from(encrypted.content)).toString('utf8'); 
-            // console.log(value);
+            let value = crypto.publicDecrypt(key.key, Buffer.from(encrypted.content, 'base64')).toString('utf8'); 
             return { 
                 type: contentType,
-                value: "This is a magical message!"
+                value
             };
         default:
             return null;

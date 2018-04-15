@@ -3,7 +3,7 @@ import { EncryptedContent } from "../encryption/types";
 import axios from "axios";
 import { KeyPair } from "../encryption/types";
 
-const API_URL = "http://167.99.169.114/graphql";
+const API_URL = "https://api.negebauer.com/graphql";
 
 export async function getPosts(ids: string[]) : Promise<Post[]> {
     let posts = await axios

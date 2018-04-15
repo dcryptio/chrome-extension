@@ -35,3 +35,5 @@ export async function generateKeyPair(length: number, name: string) : Promise<Ke
         public: pubKey,
     };
 }
+
+generateKeyPair(512, "test").then(console.log);

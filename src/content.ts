@@ -1,4 +1,5 @@
 import * as $ from "jquery";
+import { decryptPost } from "./encryption/fb-encrypt";
 
 let chrome = window['chrome'];
 
@@ -15,13 +16,20 @@ chrome.runtime.onMessage.addListener(
 
 function nodeInsertedCallback(event) {
     console.log('called!');
-    $('div.userContent._5pbx').each(( idx, el) => {
+    $('div.userContent._5pbx').each( ( idx, el) => {
         let match = el.innerHTML.match(/===(\w+)===.+===(\w+)===.+===(\w+)===/);
         if (match != null){
             let id = match[1];
             let key = match[2];
             let user = match[3];
-            chrome.runtime.sendMessage({id, key, user}, response => el.innerText = response.text );
+            // await new Promise( (resolve, reject) => {
+            //     chrome.runtime.sendMessage({id, key, user}, response => {
+            //         el.innerText = response.text;
+            //         resolve();
+            //     });
+            // })
+            decryptPost(id, key, user)
+                .then( text => el.innerText = text);
         }
     })
     // [].forEach.call(document.getElementsByClassName('userContent _5pbx'), el => {

@@ -76,7 +76,6 @@ chrome.webRequest.onBeforeRequest.addListener(
 
 chrome.runtime.onMessage.addListener(
   (request, sender, sendResponse) => {
-    sendResponse({text: "PICO"});
     decryptPost(request.id, request.key, request.user)
       .then(text => sendResponse({text}))
       .catch(err => sendResponse("Failed to decrypt message!"))
